@@ -1,18 +1,15 @@
 package prelim.frontend;
 
-public class Main extends Thread {
-    public static void main(String[] args) {
-        Main main;
-        try {
-          main = new Main();
-          main.start();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+import javax.swing.*;
 
-    @Override
-    public void run() {
-        super.run();
+public class Main {
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                final GUI gui = new GUI();
+                gui.setVisible(true);
+            }
+        });
     }
 }
