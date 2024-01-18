@@ -89,8 +89,7 @@ public class GUI extends JFrame {
 
         // Filter Panel
         JPanel filterPanel = new JPanel();
-        filterPanel.setPreferredSize(new Dimension(900, 60));
-        filterPanel.setBorder(BorderFactory.createLineBorder(Color.RED));
+        filterPanel.setPreferredSize(new Dimension(900, 40));
 
         // Adding a label
         JLabel filterLabel = new JLabel("FILTER:");
@@ -106,8 +105,8 @@ public class GUI extends JFrame {
                 "Top 3 Highest Average Height of Athletes per Country"};
 
         JComboBox<String> filterDropdown = new JComboBox<>(filterOptions);
-        filterDropdown.setFont(new Font("Arial", Font.BOLD, 16)); // Setting bold font
-        filterDropdown.setSelectedIndex(0);  // Set default selection to the prompt
+        filterDropdown.setFont(new Font("Arial", Font.BOLD, 16));
+        filterDropdown.setSelectedIndex(0);
         filterPanel.add(filterDropdown);
 
         container.add(filterPanel, BorderLayout.NORTH);
@@ -120,8 +119,16 @@ public class GUI extends JFrame {
 
         // Button Panel
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setPreferredSize(new Dimension(900, 40));
-        buttonPanel.setBorder(BorderFactory.createLineBorder(Color.RED));
+        buttonPanel.setPreferredSize(new Dimension(900, 60));
+
+        // Adding a button
+        JButton showResultsButton = new JButton("SHOW RESULTS");
+        showResultsButton.setFont(new Font("Arial", Font.BOLD, 16));
+        showResultsButton.setPreferredSize(new Dimension(200, 50));
+        showResultsButton.setBackground(resources.polynesianBlue);
+        showResultsButton.setForeground(Color.WHITE);
+        buttonPanel.add(showResultsButton);
+
         container.add(buttonPanel, BorderLayout.SOUTH);
 
         return container;
@@ -139,8 +146,6 @@ public class GUI extends JFrame {
         copyright.setHorizontalAlignment(SwingConstants.CENTER);
         copyright.setForeground(Color.WHITE);
         container.add(copyright, BorderLayout.CENTER);
-
-
 
         return container;
     }
