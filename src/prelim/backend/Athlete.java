@@ -1,6 +1,8 @@
 package prelim.backend;
 
+import java.lang.reflect.Array;
 import java.time.Year;
+import java.util.ArrayList;
 
 public class Athlete {
     private String name;
@@ -14,13 +16,15 @@ public class Athlete {
     private String season;
     private String city;
     private String sport;
-    private String event;
-    private String medal;
+    private ArrayList<String> event;
+    private ArrayList<String> medal;
 
     public Athlete(String name, char sex, int age, int height, int weight, String team, String NOC,
     Year year, String season, String city, String sport, String event, String medal) {}
 
     public Athlete(String[] information) {
+        event = new ArrayList<>();
+        medal = new ArrayList<>();
         name = information[1];
         sex = information[2].charAt(0);
         age = Integer.parseInt(information[3]);
@@ -32,8 +36,13 @@ public class Athlete {
         season = information[9];
         city = information[10];
         sport = information[11];
-        event = information[12];
-        medal = information[13];
+        event.add(information[12]);
+        medal.add(information[13]);
+    }
+
+    public void addEventStanding(String[] information) {
+        this.event.add(information[12]);
+        this.medal.add(information[13]);
     }
 
     @Override

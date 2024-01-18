@@ -18,8 +18,9 @@ public class DataHandler {
         while ((lineRead = fileReader.readLine()) != null) {
             String[] lineSplit = lineRead.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
             athleteObj = new Athlete(lineSplit);
-            if (athleteMap.containsKey(lineSplit[0])) {
-                //TODO: Figure out how to map when an athlete joined two events
+            if (athleteMap.containsKey(Integer.parseInt(lineSplit[0]))) {
+                athleteMap.get(Integer.parseInt(lineSplit[0])).addEventStanding(lineSplit);
+                x++;
             } else
                 athleteMap.put(Integer.parseInt(lineSplit[0]), athleteObj);
         }
