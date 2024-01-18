@@ -119,18 +119,23 @@ public class GUI extends JFrame {
         // Column names for the table
         String[] columnNames = {"ID", "Name", "Sex", "Age", "Height", "Weight", "Team", "NOC", "Year", "Season", "City", "Sport", "Event", "Medals"};
 
-        // Create a DefaultTableModel with 14 columns and set column names
+        // DefaultTableModel with 14 columns
         DefaultTableModel model = new DefaultTableModel(columnNames, 0);
-
-        // Create a JTable with the DefaultTableModel and add it to the JScrollPane
         JTable table = new JTable(model);
 
         // Set the preferred size of the JTable
         table.setPreferredScrollableViewportSize(new Dimension(950, 445));
 
-        JScrollPane scrollPane = new JScrollPane(table);
-        tablePanel.add(scrollPane);
+        // Labels of the columns
+        table.getTableHeader().setFont(new Font("Arial", Font.BOLD, 14));
 
+        // Set the border for the scroll pane
+        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setBorder(BorderFactory.createLineBorder(new Color(0,0,0), 1));
+
+        table.getTableHeader().setResizingAllowed(true);
+        table.getTableHeader().setReorderingAllowed(false);
+        tablePanel.add(scrollPane);
         container.add(tablePanel, BorderLayout.CENTER);
 
         // Button Panel
