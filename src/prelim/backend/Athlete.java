@@ -54,7 +54,10 @@ public class Athlete {
         medal.add(information[13]);
     }
 
+    // So there aren't multiple records of an individual athlete in the hashmap,
+    // we'll just collate the unique event and medal information as an arrayList and keep the other information
     public void addEventStanding(String[] information) {
+        //TODO: check whether there is an athlete who plays a different sport.
         this.event.add(information[12]);
         this.medal.add(information[13]);
     }
