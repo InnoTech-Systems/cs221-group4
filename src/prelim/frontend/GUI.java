@@ -16,14 +16,11 @@ public class GUI extends JFrame {
     private JPanel main;
 
     /**
-     * Sidebar of the frame containing control buttons.
-     */
-    private JPanel aside;
-
-    /**
      * Footer of the frame containing copyright notices.
      */
     private JPanel footer;
+
+    private final Resources resources = new Resources();
 
     /**
      * Constructs GUI.
@@ -36,12 +33,8 @@ public class GUI extends JFrame {
         header.setPreferredSize(new Dimension(650,70));
         add(header, BorderLayout.NORTH);
 
-        aside = populateAside();
-        aside.setPreferredSize(new Dimension(350,600));
-        add(aside, BorderLayout.WEST);
-
         main = populateMain();
-        main.setPreferredSize(new Dimension(650,700));
+        main.setPreferredSize(new Dimension(1000,700));
         add(main, BorderLayout.CENTER);
 
         footer = populateFooter();
@@ -55,9 +48,30 @@ public class GUI extends JFrame {
         setVisible(true);
     }
 
+    /**
+     * Populates the components of the Header panel
+     * @return panel with fixed populated elements and components
+     */
     private JPanel populateHeader() {
         JPanel container = new JPanel();
-        container.setBackground(Color.BLACK);
+        container.setBackground(resources.polynesianBlue);
+        container.setLayout(new FlowLayout(FlowLayout.LEFT));
+
+        // Navigation Buttons
+
+        // Home
+        JButton btnHome = createButton("Home", Color.WHITE);
+        btnHome.setHorizontalAlignment(SwingConstants.LEFT);
+        btnHome.setVerticalTextPosition(SwingConstants.CENTER);;
+        btnHome.setFont(btnHome.getFont().deriveFont(18f));
+        container.add(btnHome);
+
+        // Results
+        JButton btnResults = createButton("Olympic Results", Color.WHITE);
+        btnResults.setHorizontalAlignment(SwingConstants.LEFT);
+        btnResults.setVerticalAlignment(SwingConstants.CENTER);
+        btnResults.setFont(btnHome.getFont().deriveFont(18f));
+        container.add(btnResults);
 
         return container;
     }
@@ -77,8 +91,30 @@ public class GUI extends JFrame {
 
     private JPanel populateFooter() {
         JPanel container = new JPanel();
-        container.setBackground(Color.cyan);
+        container.setLayout(new BorderLayout());
+        container.setBackground(resources.polynesianBlue);
+
+        int copyrightSymbolCodePoint = 169 ;
+        String cSymbol = Character.toString(copyrightSymbolCodePoint);
+
+        JLabel copyright = new JLabel(cSymbol + "Deans 5 2024");
+        copyright.setHorizontalAlignment(SwingConstants.CENTER);
+        copyright.setForeground(Color.WHITE);
+        container.add(copyright, BorderLayout.CENTER);
+
+
 
         return container;
+    }
+
+    private JButton createButton(String text, Color color) {
+        JButton button = new JButton(text);
+        // button.setFont(resources.montserratBold);
+        button.setForeground(color);
+        button.setOpaque(false);
+        button.setBorderPainted(false);
+        button.setContentAreaFilled(false);
+        button.setFocusable(false);
+        return button;
     }
 }
