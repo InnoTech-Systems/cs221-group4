@@ -1,6 +1,7 @@
 package prelim.frontend;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.Hashtable;
 
@@ -114,17 +115,32 @@ public class GUI extends JFrame {
         // Table Panel
         JPanel tablePanel = new JPanel();
         tablePanel.setPreferredSize(new Dimension(900, 600));
-        tablePanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+        // Column names for the table
+        String[] columnNames = {"ID", "Name", "Sex", "Age", "Height", "Weight", "Team", "NOC", "Year", "Season", "City", "Sport", "Event", "Medals"};
+
+        // Create a DefaultTableModel with 14 columns and set column names
+        DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+
+        // Create a JTable with the DefaultTableModel and add it to the JScrollPane
+        JTable table = new JTable(model);
+
+        // Set the preferred size of the JTable
+        table.setPreferredScrollableViewportSize(new Dimension(950, 445));
+
+        JScrollPane scrollPane = new JScrollPane(table);
+        tablePanel.add(scrollPane);
+
         container.add(tablePanel, BorderLayout.CENTER);
 
         // Button Panel
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setPreferredSize(new Dimension(900, 60));
+        buttonPanel.setPreferredSize(new Dimension(900, 50));
 
         // Adding a button
         JButton showResultsButton = new JButton("SHOW RESULTS");
         showResultsButton.setFont(new Font("Arial", Font.BOLD, 16));
-        showResultsButton.setPreferredSize(new Dimension(200, 50));
+        showResultsButton.setPreferredSize(new Dimension(180, 40));
         showResultsButton.setBackground(resources.polynesianBlue);
         showResultsButton.setForeground(Color.WHITE);
         buttonPanel.add(showResultsButton);
