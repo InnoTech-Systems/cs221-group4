@@ -90,16 +90,38 @@ public class GUI extends JFrame {
         // Filter Panel
         JPanel filterPanel = new JPanel();
         filterPanel.setPreferredSize(new Dimension(900, 60));
+        filterPanel.setBorder(BorderFactory.createLineBorder(Color.RED));
+
+        // Adding a label
+        JLabel filterLabel = new JLabel("FILTER:");
+        filterLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        filterPanel.add(filterLabel);
+
+        // Adding a dropdown box with filter options
+        String[] filterOptions = {"Choose here",  // Prompt text
+                "Top 5 Athletes with Most Medals",
+                "Top 5 Countries with Most Medals",
+                "Average Height of Female Athletes",
+                "Top 3 Sports with Most Medals",
+                "Top 3 Highest Average Height of Athletes per Country"};
+
+        JComboBox<String> filterDropdown = new JComboBox<>(filterOptions);
+        filterDropdown.setFont(new Font("Arial", Font.BOLD, 16)); // Setting bold font
+        filterDropdown.setSelectedIndex(0);  // Set default selection to the prompt
+        filterPanel.add(filterDropdown);
+
         container.add(filterPanel, BorderLayout.NORTH);
 
         // Table Panel
         JPanel tablePanel = new JPanel();
         tablePanel.setPreferredSize(new Dimension(900, 600));
+        tablePanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         container.add(tablePanel, BorderLayout.CENTER);
 
         // Button Panel
         JPanel buttonPanel = new JPanel();
         buttonPanel.setPreferredSize(new Dimension(900, 40));
+        buttonPanel.setBorder(BorderFactory.createLineBorder(Color.RED));
         container.add(buttonPanel, BorderLayout.SOUTH);
 
         return container;
