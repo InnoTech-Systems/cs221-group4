@@ -85,6 +85,22 @@ public class GUI extends JFrame {
 
     private JPanel populateMain() {
         JPanel container = new JPanel();
+        container.setLayout(new BorderLayout());
+
+        // Filter Panel
+        JPanel filterPanel = new JPanel();
+        filterPanel.setPreferredSize(new Dimension(900, 60));
+        container.add(filterPanel, BorderLayout.NORTH);
+
+        // Table Panel
+        JPanel tablePanel = new JPanel();
+        tablePanel.setPreferredSize(new Dimension(900, 600));
+        container.add(tablePanel, BorderLayout.CENTER);
+
+        // Button Panel
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setPreferredSize(new Dimension(900, 40));
+        container.add(buttonPanel, BorderLayout.SOUTH);
 
         return container;
     }
