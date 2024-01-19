@@ -4,7 +4,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class DataHandler {
     static HashMap<Integer, Athlete> athleteMap;
@@ -33,6 +35,33 @@ public class DataHandler {
                 athleteMap.put(Integer.parseInt(lineSplit[0]), athleteObj);
             }
         }
+    }
+
+    public HashMap<String, Double> aveHeightPerCountry() {
+        HashMap<String, ArrayList<Integer>> heightCountryRecord = new HashMap<>();
+
+        // Sort them by city
+        for (Integer key : athleteMap.keySet()) {
+            if (heightCountryRecord.containsKey(athleteMap.get(key).getTeam())) {
+                 heightCountryRecord.get(athleteMap.get(key).getTeam()).add(athleteMap.get(key).getHeight());
+            } else {
+                ArrayList<Integer> heightList = new ArrayList<>();
+                heightList.add(athleteMap.get(key).getHeight());
+                heightCountryRecord.put(athleteMap.get(key).getTeam(), heightList);
+            }
+        }
+
+        // Get Average per country
+        HashMap<String, Double> avePerCountry = new HashMap<String, Double>();
+        for (String key : heightCountryRecord.keySet()) {
+            ArrayList<Integer> heightList = heightCountryRecord.get(key);
+            double average = heightList.stream()
+                    .mapToDouble(Integer::doubleValue)
+                    .average()
+                    .orElse(0.0);
+            avePerCountry.put(key,average);
+        }
+        return avePerCountry;
     }
 
     public static void printMap() {
