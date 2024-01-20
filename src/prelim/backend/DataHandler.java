@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -61,7 +62,31 @@ public class DataHandler {
                     .orElse(0.0);
             avePerCountry.put(key,average);
         }
-        return avePerCountry;
+
+        // Return only the top 3
+        String top1 = avePerCountry.keySet()
+                .stream()
+                .max((x, y) -> avePerCountry.get(x).compareTo(avePerCountry.get(y)))
+                .orElse(null);
+
+        String top2 = avePerCountry.keySet()
+                .stream()
+                .filter(key -> key != top1)
+                .max((x,y) -> avePerCountry.get(x).compareTo(avePerCountry.get(y)))
+                .orElse(null);
+
+        String top3 = avePerCountry.keySet()
+                .stream()
+                .filter(key -> key != top1 && key != top2)
+                .max((x,y) -> avePerCountry.get(x).compareTo(avePerCountry.get(y)))
+                .orElse(null);
+
+        HashMap<String, Double> top3Map = new HashMap<>();
+        top3Map.put(top1,avePerCountry.get(top1));
+        top3Map.put(top2,avePerCountry.get(top2));
+        top3Map.put(top3,avePerCountry.get(top3));
+
+        return top3Map;
     }
 
     public static void printMap() {
