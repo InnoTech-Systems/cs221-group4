@@ -1,6 +1,7 @@
 package prelim.frontend;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.Hashtable;
 
@@ -85,6 +86,71 @@ public class GUI extends JFrame {
 
     private JPanel populateMain() {
         JPanel container = new JPanel();
+        container.setLayout(new BorderLayout());
+
+        // Filter Panel
+        JPanel filterPanel = new JPanel();
+        filterPanel.setPreferredSize(new Dimension(900, 40));
+
+        // Adding a label
+        JLabel filterLabel = new JLabel("FILTER:");
+        filterLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        filterPanel.add(filterLabel);
+
+        // Adding a dropdown box with filter options
+        String[] filterOptions = {"Choose here",  // Prompt text
+                "Top 5 Athletes with Most Medals",
+                "Top 5 Countries with Most Medals",
+                "Average Height of Female Athletes",
+                "Top 3 Sports with Most Medals",
+                "Top 3 Highest Average Height of Athletes per Country"};
+
+        JComboBox<String> filterDropdown = new JComboBox<>(filterOptions);
+        filterDropdown.setFont(new Font("Arial", Font.BOLD, 16));
+        filterDropdown.setSelectedIndex(0);
+        filterPanel.add(filterDropdown);
+
+        container.add(filterPanel, BorderLayout.NORTH);
+
+        // Table Panel
+        JPanel tablePanel = new JPanel();
+        tablePanel.setPreferredSize(new Dimension(900, 600));
+
+        // Column names for the table
+        String[] columnNames = {"ID", "Name", "Sex", "Age", "Height", "Weight", "Team", "NOC", "Year", "Season", "City", "Sport", "Event", "Medals"};
+
+        // DefaultTableModel with 14 columns
+        DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+        JTable table = new JTable(model);
+
+        // Set the preferred size of the JTable
+        table.setPreferredScrollableViewportSize(new Dimension(950, 445));
+
+        // Labels of the columns
+        table.getTableHeader().setFont(new Font("Arial", Font.BOLD, 14));
+
+        // Set the border for the scroll pane
+        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setBorder(BorderFactory.createLineBorder(new Color(0,0,0), 1));
+
+        table.getTableHeader().setResizingAllowed(true);
+        table.getTableHeader().setReorderingAllowed(false);
+        tablePanel.add(scrollPane);
+        container.add(tablePanel, BorderLayout.CENTER);
+
+        // Button Panel
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setPreferredSize(new Dimension(900, 50));
+
+        // Adding a button
+        JButton showResultsButton = new JButton("SHOW RESULTS");
+        showResultsButton.setFont(new Font("Arial", Font.BOLD, 16));
+        showResultsButton.setPreferredSize(new Dimension(180, 40));
+        showResultsButton.setBackground(resources.polynesianBlue);
+        showResultsButton.setForeground(Color.WHITE);
+        buttonPanel.add(showResultsButton);
+
+        container.add(buttonPanel, BorderLayout.SOUTH);
 
         return container;
     }
@@ -101,8 +167,6 @@ public class GUI extends JFrame {
         copyright.setHorizontalAlignment(SwingConstants.CENTER);
         copyright.setForeground(Color.WHITE);
         container.add(copyright, BorderLayout.CENTER);
-
-
 
         return container;
     }
