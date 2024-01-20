@@ -6,6 +6,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.TreeMap;
+import java.util.Map;
+import java.util.Comparator;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class DataHandler {
@@ -63,6 +67,31 @@ public class DataHandler {
         }
         return avePerCountry;
     }
+
+    /**
+     *
+     * This method tallies all the gold medals for each country based on the filters applied
+     * @author Jasmin, Ramon Emmiel P.
+     * @return sortedTopCountries The Map(TreeMap) that contains the top countries with gold medals
+     */
+    public Map<String, Integer> topCountriesMedals(){
+        Map<String, Integer> topCountries = new HashMap<>();
+
+        for (Athlete athlete : athleteMap.values()){
+            topCountries.put(athlete.getNOC(), topCountries.getOrDefault(athlete.getNOC(),0) + 1);
+        }
+
+        Map<String, Integer> sortedTopCountries = new TreeMap<>(
+                Comparator.comparing(topCountries::get).reversed()
+        );
+
+        sortedTopCountries.putAll(topCountries);
+
+        return sortedTopCountries;
+    }
+
+
+
 
     public static void printMap() {
         int x=0;
