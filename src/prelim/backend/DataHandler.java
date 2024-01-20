@@ -1,5 +1,7 @@
 package prelim.backend;
 
+import com.sun.source.tree.Tree;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -7,6 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class DataHandler {
@@ -38,7 +41,7 @@ public class DataHandler {
         }
     }
 
-    public HashMap<String, Double> aveHeightPerCountry() {
+    public TreeMap<String, Double> aveHeightPerCountry() {
         HashMap<String, ArrayList<Integer>> heightCountryRecord = new HashMap<>();
 
         // Sort them by city
@@ -81,10 +84,11 @@ public class DataHandler {
                 .max((x,y) -> avePerCountry.get(x).compareTo(avePerCountry.get(y)))
                 .orElse(null);
 
-        HashMap<String, Double> top3Map = new HashMap<>();
-        top3Map.put(top1,avePerCountry.get(top1));
-        top3Map.put(top2,avePerCountry.get(top2));
+        TreeMap<String, Double> top3Map = new TreeMap<>();
         top3Map.put(top3,avePerCountry.get(top3));
+        top3Map.put(top2,avePerCountry.get(top2));
+        top3Map.put(top1,avePerCountry.get(top1));
+
 
         return top3Map;
     }
