@@ -14,12 +14,25 @@ public class Tester {
         // TreeMap because hashmap does not maintain order
         TreeMap<String, Double> avePerCountry = dataHandler.aveHeightPerCountry();
 
+        System.out.println(avePerCountry);
+
         int x = 0;
         for (String key : avePerCountry.keySet()) {
             x++;
             System.out.println(x +". " + key + ": " + avePerCountry.get(key));
         }
 
-       // dataHandler.printMap();
+        System.out.println();
+        System.out.println("Top 3 sports with most medals");
+        TreeMap<String, Integer> top3Sports = dataHandler.topSportsWithMostMedals();
+        System.out.println(top3Sports);
+        for (Map.Entry<String, Integer> entry : top3Sports.entrySet()) {
+            System.out.println(entry.getKey() + ": " + entry.getValue() + " medals");
+        }
     }
-}
+
+
+
+
+    }
+

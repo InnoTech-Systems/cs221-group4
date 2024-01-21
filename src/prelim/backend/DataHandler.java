@@ -106,8 +106,51 @@ public class DataHandler {
         return sortedTopCountries;
     }
 
+    /**
+     * This method calculates the total number of medals for each sport and returns a sorted map
+     * with the sports as keys and their corresponding total medal counts as values.
+     * Returns a TreeMap containing the top 3 sports with the highest total medal counts.
+     *
+     * @return A TreeMap containing the top 3 sports and their corresponding total medal counts.
+     */
+    public TreeMap<String, Integer> topSportsWithMostMedals() {
+        TreeMap<String, Integer> topSports = new TreeMap<>();
 
+        // iterate through the athletes and update the topSports map
+        for (Athlete athlete : athleteMap.values()) {
+            List<String> sports = athlete.getSport();
 
+            // iterate through the sports for each athlete
+            for (String sport : sports) {
+                List<String> medals = athlete.getMedal();
+
+                // assuming each medal is represented as a String
+                topSports.put(sport, topSports.getOrDefault(sport, 0) + medals.size());
+            }
+        }
+        // creates a sorted map based on the total medal count in descending order
+        TreeMap<String, Integer> sortedTopSports = new TreeMap<>(
+                Comparator.comparing(topSports::get).reversed()
+        );
+
+        // populates the sorted map with data from the unsorted map
+        sortedTopSports.putAll(topSports);
+
+        // creates a TreeMap to store the top 3 sports and their total medal counts
+        TreeMap<String, Integer> top3Sports = new TreeMap<>();
+
+        // adds the top 3 sports to the new TreeMap
+        int count = 0;
+        for (Map.Entry<String, Integer> entry : sortedTopSports.entrySet()) {
+            top3Sports.put(entry.getKey(), entry.getValue());
+            count++;
+            if (count >= 3) {
+                break;
+            }
+        }
+
+        return top3Sports;
+    }
 
     public static void printMap() {
         int x=0;

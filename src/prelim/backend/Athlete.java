@@ -1,8 +1,9 @@
 package prelim.backend;
 
-import java.lang.reflect.Array;
 import java.time.Year;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class Athlete {
     private String name;
@@ -142,8 +143,8 @@ public class Athlete {
         this.city = city;
     }
 
-    public String getSport() {
-        return sport;
+    public List<String> getSport() {
+        return Collections.singletonList(sport);
     }
 
     public void setSport(String sport) {
