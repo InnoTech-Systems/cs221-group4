@@ -1,16 +1,7 @@
 package prelim.backend;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.TreeMap;
-import java.util.Map;
-import java.util.Comparator;
+import java.io.*;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class DataHandler {
     static HashMap<Integer, Athlete> athleteMap;

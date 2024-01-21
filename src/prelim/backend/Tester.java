@@ -1,9 +1,7 @@
 package prelim.backend;
 
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
+import java.io.*;
 
 public class Tester {
     public static void main(String[] args) throws Exception {
