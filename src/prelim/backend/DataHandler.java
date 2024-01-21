@@ -2,6 +2,7 @@ package prelim.backend;
 
 import java.io.*;
 import java.util.*;
+import com.sun.source.tree.Tree;
 
 public class DataHandler {
     static HashMap<Integer, Athlete> athleteMap;
@@ -32,7 +33,7 @@ public class DataHandler {
         }
     }
 
-    public HashMap<String, Double> aveHeightPerCountry() {
+    public TreeMap<String, Double> aveHeightPerCountry() {
         HashMap<String, ArrayList<Integer>> heightCountryRecord = new HashMap<>();
 
         // Sort them by city
@@ -56,11 +57,35 @@ public class DataHandler {
                     .orElse(0.0);
             avePerCountry.put(key,average);
         }
-        return avePerCountry;
+
+        // Return only the top 3
+        String top1 = avePerCountry.keySet()
+                .stream()
+                .max((x, y) -> avePerCountry.get(x).compareTo(avePerCountry.get(y)))
+                .orElse(null);
+
+        String top2 = avePerCountry.keySet()
+                .stream()
+                .filter(key -> key != top1)
+                .max((x,y) -> avePerCountry.get(x).compareTo(avePerCountry.get(y)))
+                .orElse(null);
+
+        String top3 = avePerCountry.keySet()
+                .stream()
+                .filter(key -> key != top1 && key != top2)
+                .max((x,y) -> avePerCountry.get(x).compareTo(avePerCountry.get(y)))
+                .orElse(null);
+
+        TreeMap<String, Double> top3Map = new TreeMap<>();
+        top3Map.put(top3,avePerCountry.get(top3));
+        top3Map.put(top2,avePerCountry.get(top2));
+        top3Map.put(top1,avePerCountry.get(top1));
+
+
+        return top3Map;
     }
 
     /**
-     *
      * This method tallies all the gold medals for each country based on the filters applied
      * @author Jasmin, Ramon Emmiel P.
      * @return sortedTopCountries The Map(TreeMap) that contains the top countries with gold medals
