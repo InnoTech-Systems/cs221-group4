@@ -1,4 +1,6 @@
-package prelim.view;
+package prelim;
+
+import prelim.view.GUI;
 
 import javax.swing.*;
 
