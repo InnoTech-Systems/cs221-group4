@@ -1,9 +1,8 @@
-package prelim.frontend;
+package prelim.view;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.util.Hashtable;
 
 public class GUI extends JFrame {
     /**
