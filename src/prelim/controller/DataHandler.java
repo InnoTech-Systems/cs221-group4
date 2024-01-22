@@ -1,4 +1,6 @@
-package prelim.model;
+package prelim.controller;
+
+import prelim.model.Athlete;
 
 import java.io.*;
 import java.util.*;
