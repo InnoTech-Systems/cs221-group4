@@ -22,6 +22,8 @@ public class GUI extends JFrame {
 
     private final Resources resources = new Resources();
 
+    private CardLayout cardLayout = new CardLayout(0,0);
+
     /**
      * Constructs GUI.
      */
