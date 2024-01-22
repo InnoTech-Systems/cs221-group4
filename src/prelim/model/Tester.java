@@ -1,4 +1,4 @@
-package prelim.backend;
+package prelim.model;
 
 import java.util.*;
 import java.io.*;

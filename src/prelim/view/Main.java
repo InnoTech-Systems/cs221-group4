@@ -1,4 +1,4 @@
-package prelim.frontend;
+package prelim.view;
 
 import javax.swing.*;
 

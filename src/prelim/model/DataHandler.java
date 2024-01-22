@@ -1,8 +1,7 @@
-package prelim.backend;
+package prelim.model;
 
 import java.io.*;
 import java.util.*;
-import com.sun.source.tree.Tree;
 
 public class DataHandler {
     static HashMap<Integer, Athlete> athleteMap;
