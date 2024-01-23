@@ -15,6 +15,4 @@ public class Controller {
         // Create method to map filterOptions to an integer
         // Create a switch-case block to update the model
     }
-
-
 }
