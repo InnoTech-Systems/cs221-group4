@@ -144,9 +144,9 @@ public class GUI extends JFrame {
         String[] filterOptions = {"Choose here",  // Prompt text
                 "Top 5 Athletes with Most Medals",
                 "Top 5 Countries with Most Medals",
-                "Average Height of Female Athletes",
-                "Top 3 Sports with Most Medals",
-                "Top 3 Highest Average Height of Athletes per Country"};
+                "Top 5 Countries with Youngest Medalists",
+                "Top 5 Sports with Most Medals",
+                "Top 5 Highest Average Height of Athletes per Country"};
 
         filterDropdown = new JComboBox<>(filterOptions);
         filterDropdown.setFont(new Font("Arial", Font.BOLD, 16));
