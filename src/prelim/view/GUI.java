@@ -1,8 +1,13 @@
 package prelim.view;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class GUI extends JFrame {
     /**
@@ -94,13 +99,18 @@ public class GUI extends JFrame {
      */
     private JPanel populateMain() {
         JPanel container = new JPanel();
-        container.setLayout(cardLayout);
 
-        JPanel homePanel = populateHome();
-        container.add(homePanel, "home");
+        try {
+            container.setLayout(cardLayout);
 
-        JPanel tablePanel = populateTable();
-        container.add(tablePanel, "table");
+            JPanel homePanel = populateHome();
+            container.add(homePanel, "home");
+
+            JPanel tablePanel = populateTable();
+            container.add(tablePanel, "table");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return container;
     }
@@ -176,13 +186,37 @@ public class GUI extends JFrame {
         return container;
     }
 
-    private JPanel populateHome() {
+    private JPanel populateHome() throws IOException {
         JPanel container = new JPanel();
+        container.setBorder(new EmptyBorder(10,20,10,20));
         container.setLayout(new BorderLayout());
         container.setBackground(Color.WHITE);
 
+        BufferedImage olympicsLogo = ImageIO.read(new File("img/olympics-logo.png"));
+        Image image = olympicsLogo.getScaledInstance(300,154, Image.SCALE_DEFAULT);
 
 
+        JLabel olympicsLbl = new JLabel(new ImageIcon(image));
+        container.add(olympicsLbl, BorderLayout.NORTH);
+
+
+        JTextArea instructionsTxtArea = new JTextArea();
+
+        String instructions =
+                "The data consists of <specify data>." +"\n\n" +
+                        "To view desired Results of the Olympics based on the given pre-defined set of data," +
+                        "simply choose desired filter in the dropdown menu in the Olympic Results page.";
+
+        instructionsTxtArea.setText(instructions);
+        instructionsTxtArea.setPreferredSize(new Dimension(500, 260));
+        instructionsTxtArea.setWrapStyleWord(true);
+        instructionsTxtArea.setLineWrap(true);
+        instructionsTxtArea.setOpaque(false);
+        instructionsTxtArea.setEditable(false);
+        instructionsTxtArea.setFocusable(false);
+        instructionsTxtArea.setForeground(Color.BLACK);
+
+        container.add(instructionsTxtArea, BorderLayout.CENTER);
 
         return container;
     }
