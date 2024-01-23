@@ -152,6 +152,33 @@ public class DataHandler {
 
         return top3Sports;
     }
+    public TreeMap<String, Integer> topCountriesYoungestMedalist() {
+
+        TreeMap<String, Integer> youngestMedalists = new TreeMap<>();
+
+        for (Athlete athlete : athleteMap.values()) {
+            String country = athlete.getTeam();
+            int age = athlete.getAge();
+
+            if (!youngestMedalists.containsKey(country) || age <= youngestMedalists.get(country)) {
+                youngestMedalists.put(country, age);
+            }
+        }
+
+        TreeMap<String, Integer> topCountriesYoungest = new TreeMap<>(Comparator.comparingInt(youngestMedalists::get));
+
+        int count = 0;
+        for (Map.Entry<String, Integer> entry : youngestMedalists.entrySet()) {
+            topCountriesYoungest.put(entry.getKey(), entry.getValue());
+            count++;
+
+            if (count >= 3) {
+                break;
+            }
+        }
+
+        return topCountriesYoungest;
+    }
 
     public static void printMap() {
         int x=0;
