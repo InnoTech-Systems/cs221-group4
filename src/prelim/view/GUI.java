@@ -94,6 +94,19 @@ public class GUI extends JFrame {
      */
     private JPanel populateMain() {
         JPanel container = new JPanel();
+        container.setLayout(cardLayout);
+
+        JPanel homePanel = populateHome();
+        container.add(homePanel, "home");
+
+        JPanel tablePanel = populateTable();
+        container.add(tablePanel, "table");
+
+        return container;
+    }
+
+    private JPanel populateTable() {
+        JPanel container = new JPanel();
         container.setLayout(new BorderLayout());
 
         // Filter Panel
@@ -159,6 +172,17 @@ public class GUI extends JFrame {
         buttonPanel.add(showResultsButton);
 
         container.add(buttonPanel, BorderLayout.SOUTH);
+
+        return container;
+    }
+
+    private JPanel populateHome() {
+        JPanel container = new JPanel();
+        container.setLayout(new BorderLayout());
+        container.setBackground(Color.WHITE);
+
+
+
 
         return container;
     }
