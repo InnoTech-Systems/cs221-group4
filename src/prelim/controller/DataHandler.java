@@ -152,26 +152,42 @@ public class DataHandler {
 
         return top3Sports;
     }
+    /**
+     * This methods finds the top 3 countries with the youngest medalists.
+     * It loops through athlete data, noting the youngest medalist for each country.
+     * Returns a TreeMap sorted by ages, showcasing the top 3 countries with their
+     * youngest medalists' ages.
+     *
+     * @return A TreeMap with country names as keys and corresponding youngest medalists' ages as values.
+     */
     public TreeMap<String, Integer> topCountriesYoungestMedalist() {
-
+        // TreeMap to store countries and their youngest medalists' ages
         TreeMap<String, Integer> youngestMedalists = new TreeMap<>();
 
+        // Loop through athletes and update youngestMedalists map
         for (Athlete athlete : athleteMap.values()) {
+            // Get country and age of the current athlete
             String country = athlete.getTeam();
             int age = athlete.getAge();
 
+            // Check if country is not in map or if current age is younger
             if (!youngestMedalists.containsKey(country) || age <= youngestMedalists.get(country)) {
+                // Update youngestMedalists map with current athlete's age
                 youngestMedalists.put(country, age);
             }
         }
 
+        // TreeMap to store top countries and their youngest medalists' ages
         TreeMap<String, Integer> topCountriesYoungest = new TreeMap<>(Comparator.comparingInt(youngestMedalists::get));
 
+        // Add top countries to the new TreeMap
         int count = 0;
         for (Map.Entry<String, Integer> entry : youngestMedalists.entrySet()) {
+            // Copy top countries and their ages to the new TreeMap
             topCountriesYoungest.put(entry.getKey(), entry.getValue());
             count++;
 
+            // Limit to the top 3 countries
             if (count >= 3) {
                 break;
             }
