@@ -20,8 +20,18 @@ public class GUI extends JFrame {
      */
     private JPanel footer;
 
+    public JComboBox<String> filterDropdown;
+
+    public DefaultTableModel model;
+
+    /**
+     * UI components
+     */
     private final Resources resources = new Resources();
 
+    /**
+     * CardLayout object used to switch in between pages.
+     */
     private CardLayout cardLayout = new CardLayout(0,0);
 
     /**
@@ -78,13 +88,10 @@ public class GUI extends JFrame {
         return container;
     }
 
-    private JPanel populateAside() {
-        JPanel container = new JPanel();
-        container.setBackground(Color.BLUE);
-
-        return container;
-    }
-
+    /**
+     * Creates the components of the main panel for the main frame.
+     * @return UI components for the main panel.
+     */
     private JPanel populateMain() {
         JPanel container = new JPanel();
         container.setLayout(new BorderLayout());
@@ -106,7 +113,7 @@ public class GUI extends JFrame {
                 "Top 3 Sports with Most Medals",
                 "Top 3 Highest Average Height of Athletes per Country"};
 
-        JComboBox<String> filterDropdown = new JComboBox<>(filterOptions);
+        filterDropdown = new JComboBox<>(filterOptions);
         filterDropdown.setFont(new Font("Arial", Font.BOLD, 16));
         filterDropdown.setSelectedIndex(0);
         filterPanel.add(filterDropdown);
@@ -121,7 +128,7 @@ public class GUI extends JFrame {
         String[] columnNames = {"ID", "Name", "Sex", "Age", "Height", "Weight", "Team", "NOC", "Year", "Season", "City", "Sport", "Event", "Medals"};
 
         // DefaultTableModel with 14 columns
-        DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+        model = new DefaultTableModel(columnNames, 0);
         JTable table = new JTable(model);
 
         // Set the preferred size of the JTable
@@ -156,6 +163,10 @@ public class GUI extends JFrame {
         return container;
     }
 
+    /**
+     * Creates the components for the footer panel for the main frame.
+     * @return UI components of the footer
+     */
     private JPanel populateFooter() {
         JPanel container = new JPanel();
         container.setLayout(new BorderLayout());
@@ -172,6 +183,12 @@ public class GUI extends JFrame {
         return container;
     }
 
+    /**
+     * Template for creating a button
+     * @param text given text of Button
+     * @param color given color of button.
+     * @return JButton with user-defined look.
+     */
     private JButton createButton(String text, Color color) {
         JButton button = new JButton(text);
         // button.setFont(resources.montserratBold);
