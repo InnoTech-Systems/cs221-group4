@@ -155,7 +155,7 @@ public class GUI extends JFrame {
         showResultsButton.setFont(new Font("Arial", Font.BOLD, 16));
         showResultsButton.setPreferredSize(new Dimension(180, 40));
         showResultsButton.setBackground(resources.polynesianBlue);
-        showResultsButton.setForeground(Color.WHITE);
+        showResultsButton.setForeground(Color.BLACK);
         buttonPanel.add(showResultsButton);
 
         container.add(buttonPanel, BorderLayout.SOUTH);
