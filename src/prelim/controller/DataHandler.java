@@ -210,6 +210,20 @@ public class DataHandler {
         return sortedTopAthletes;
     }
 
+    public Map<String, Integer> topAthletes() {
+        Map<String, Integer> topAthletes = new HashMap<>();
+
+        for (Athlete athlete: athleteMap.values()) {
+            topAthletes.put(athlete.getName(), topAthletes().getOrDefault(athlete.getMedal(), 0) + 1);
+        }
+
+        Map<String, Integer> sortedTopAthletes = new TreeMap<>(Comparator.comparing(topAthletes::get).reversed());
+
+        sortedTopAthletes.putAll(topAthletes);
+
+        return sortedTopAthletes;
+    }
+
     public static void printMap() {
         int x=0;
         for (int key : athleteMap.keySet()) {

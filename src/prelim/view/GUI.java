@@ -29,6 +29,10 @@ public class GUI extends JFrame {
 
     public DefaultTableModel model;
 
+    public JButton btnHome;
+
+    public JButton btnResults;
+
     /**
      * UI components
      */
@@ -77,18 +81,26 @@ public class GUI extends JFrame {
         // Navigation Buttons
 
         // Home
-        JButton btnHome = createButton("Home", Color.WHITE);
+        btnHome = createButton("Home", Color.WHITE);
         btnHome.setHorizontalAlignment(SwingConstants.LEFT);
         btnHome.setVerticalTextPosition(SwingConstants.CENTER);;
         btnHome.setFont(btnHome.getFont().deriveFont(18f));
         container.add(btnHome);
 
         // Results
-        JButton btnResults = createButton("Olympic Results", Color.WHITE);
+        btnResults = createButton("Olympic Results", Color.WHITE);
         btnResults.setHorizontalAlignment(SwingConstants.LEFT);
         btnResults.setVerticalAlignment(SwingConstants.CENTER);
         btnResults.setFont(btnHome.getFont().deriveFont(18f));
         container.add(btnResults);
+
+        btnHome.addActionListener(e -> {
+            cardLayout.show(main, "home");
+        });
+
+        btnResults.addActionListener(e -> {
+            cardLayout.show(main, "table");
+        });
 
         return container;
     }
