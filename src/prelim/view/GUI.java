@@ -135,23 +135,28 @@ public class GUI extends JFrame {
         JPanel filterPanel = new JPanel();
         filterPanel.setPreferredSize(new Dimension(900, 40));
 
-        // Adding a label
-        JLabel filterLabel = new JLabel("FILTER:");
-        filterLabel.setFont(new Font("Arial", Font.BOLD, 16));
-        filterPanel.add(filterLabel);
+        // Adding labels
+        JLabel filterLabel1 = new JLabel("TOP n");
+        filterLabel1.setFont(new Font("Arial", Font.BOLD, 16));
+        filterPanel.add(filterLabel1);
 
-        // Adding a dropdown box with filter options
-        String[] filterOptions = {"Choose here",  // Prompt text
-                "Top 5 Athletes with Most Medals",
-                "Top 5 Countries with Most Medals",
-                "Average Height of Female Athletes",
-                "Top 3 Sports with Most Medals",
-                "Top 3 Highest Average Height of Athletes per Country"};
+        // Adding the first dropdown box with filter options
+        String[] filterOptions1 = {"Choose here", "Top 3", "Top 5", "Top 10"};
+        JComboBox<String> filterDropdown1 = new JComboBox<>(filterOptions1);
+        filterDropdown1.setFont(new Font("Arial", Font.BOLD, 16));
+        filterDropdown1.setSelectedIndex(0);
+        filterPanel.add(filterDropdown1);
 
-        filterDropdown = new JComboBox<>(filterOptions);
-        filterDropdown.setFont(new Font("Arial", Font.BOLD, 16));
-        filterDropdown.setSelectedIndex(0);
-        filterPanel.add(filterDropdown);
+        JLabel filterLabel2 = new JLabel("Medal Statistics:");
+        filterLabel2.setFont(new Font("Arial", Font.BOLD, 16));
+        filterPanel.add(filterLabel2);
+
+        // Adding the second dropdown box with filter options
+        String[] filterOptions2 = {"Choose here", "Athletes with Most Medals", "Countries with Most Medals", "Countries with Youngest Medalists", "Sports with Most Medals", "Highest Average Height of Athletes per Country"};
+        JComboBox<String> filterDropdown2 = new JComboBox<>(filterOptions2);
+        filterDropdown2.setFont(new Font("Arial", Font.BOLD, 16));
+        filterDropdown2.setSelectedIndex(0);
+        filterPanel.add(filterDropdown2);
 
         container.add(filterPanel, BorderLayout.NORTH);
 
