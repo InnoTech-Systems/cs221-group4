@@ -41,7 +41,7 @@ public class DataHandler {
      * @param topN : int
      * @return LinkedHashMap<String, Double>
      */
-    public LinkedHashMap<String, Double> aveHeightPerCountry(int topN) {
+    public Map<String, Double> aveHeightPerCountry(int topN) {
         HashMap<String, ArrayList<Integer>> heightCountryRecord = new HashMap<>();
 
         // Sort them by city
@@ -56,7 +56,7 @@ public class DataHandler {
         }
 
         // Get Average per country
-        LinkedHashMap<String, Double> avePerCountry = new LinkedHashMap<>();
+        Map<String, Double> avePerCountry = new LinkedHashMap<>();
         for (String key : heightCountryRecord.keySet()) {
             ArrayList<Integer> heightList = heightCountryRecord.get(key);
             double average = heightList.stream()
@@ -71,14 +71,16 @@ public class DataHandler {
                 .sorted()
                 .toList();
 
-        LinkedHashMap<String, Double> mapToReturn = new LinkedHashMap<>();
+        Map<String, Double> mapToReturn = new LinkedHashMap<>();
 
         ListIterator<Double> iterator = averages.listIterator();
-        int x = 0;
         while (iterator.hasNext()) {
+            iterator.next();
+        }
+        while (iterator.hasPrevious()) {
             if (mapToReturn.size() == topN)
                 break;
-            double average = iterator.next();
+            double average = iterator.previous();
             for (String key: avePerCountry.keySet()) {
                 if (avePerCountry.get(key) == average) {
                     mapToReturn.put(key, average);
@@ -108,6 +110,7 @@ public class DataHandler {
         );
 
         sortedTopCountries.putAll(topCountries);
+
 
         return sortedTopCountries;
     }

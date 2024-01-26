@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.TreeMap;
 
 public class Tester {
@@ -16,7 +17,7 @@ public class Tester {
        // dh.printMap();
      //   dh.topAthletes();
 
-        LinkedHashMap<String, Double> treeMap = dh.aveHeightPerCountry(10);
+        Map<String, Double> treeMap = dh.aveHeightPerCountry(10);
 
         int x = 0;
         for(String key : treeMap.keySet()) {
