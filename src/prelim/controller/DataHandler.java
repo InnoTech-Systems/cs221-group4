@@ -97,7 +97,6 @@ public class DataHandler {
      * @author Jasmin, Ramon Emmiel P.
      * @return sortedTopCountries The Map(TreeMap) that contains the top countries with gold medals
      */
-    // TODO: Implement topN
     public Map<String, Integer> topCountriesMedals(int topN){
         Map<String, Integer> topCountries = new HashMap<>();
 
@@ -111,8 +110,17 @@ public class DataHandler {
 
         sortedTopCountries.putAll(topCountries);
 
+        LinkedHashMap<String, Integer> topNCountries = new LinkedHashMap<>();
+        int x=0;
+        for (String key: sortedTopCountries.keySet()) {
+            if (x == topN)
+                break;
+            topNCountries.put(key, sortedTopCountries.get(key));
+            x++;
+        }
 
-        return sortedTopCountries;
+
+        return topNCountries;
     }
 
     /**
@@ -122,8 +130,7 @@ public class DataHandler {
      *
      * @return A TreeMap containing the top 3 sports and their corresponding total medal counts.
      */
-    // TODO: Implement topN
-    public TreeMap<String, Integer> topSportsWithMostMedals(int topN) {
+    public Map<String, Integer> topSportsWithMostMedals(int topN) {
         TreeMap<String, Integer> topSports = new TreeMap<>();
 
         // iterate through the athletes and update the topSports map
@@ -147,14 +154,14 @@ public class DataHandler {
         sortedTopSports.putAll(topSports);
 
         // creates a TreeMap to store the top 3 sports and their total medal counts
-        TreeMap<String, Integer> top3Sports = new TreeMap<>();
+        LinkedHashMap<String, Integer> top3Sports = new LinkedHashMap<>();
 
-        // adds the top 3 sports to the new TreeMap
+        // adds the top n sports to the new TreeMap
         int count = 0;
         for (Map.Entry<String, Integer> entry : sortedTopSports.entrySet()) {
             top3Sports.put(entry.getKey(), entry.getValue());
             count++;
-            if (count >= 3) {
+            if (count >= topN) {
                 break;
             }
         }
@@ -177,7 +184,7 @@ public class DataHandler {
         // Loop through athletes and update youngestMedalists map
         for (Athlete athlete : athleteMap.values()) {
             // Get country and age of the current athlete
-            String country = athlete.getTeam();
+            String country = athlete.getNOC();
             int age = athlete.getAge();
 
             // Check if country is not in map or if current age is younger
@@ -191,34 +198,43 @@ public class DataHandler {
         TreeMap<String, Integer> topCountriesYoungest = new TreeMap<>(Comparator.comparingInt(youngestMedalists::get));
 
         // Add top countries to the new TreeMap
-        int count = 0;
+        int counter = 0;
         for (Map.Entry<String, Integer> entry : youngestMedalists.entrySet()) {
-            // Copy top countries and their ages to the new TreeMap
-            topCountriesYoungest.put(entry.getKey(), entry.getValue());
-            count++;
-
             // Limit to the top 3 countries
-            if (count >= 3) {
+            if (counter > topN) {
                 break;
             }
+
+            // Copy top countries and their ages to the new TreeMap
+            topCountriesYoungest.put(entry.getKey(), entry.getValue());
+            counter++;
         }
 
         return topCountriesYoungest;
     }
 
-    public Map<String, Integer> topAthletes() {
-        Map<String, Integer> topAthletes = new HashMap<>();
-
-        for (Athlete athlete: athleteMap.values()) {
-            topAthletes.put(athlete.getName(), topAthletes().getOrDefault(athlete.getMedal(), 0) + 1);
-        }
-
-        Map<String, Integer> sortedTopAthletes = new TreeMap<>(Comparator.comparing(topAthletes::get).reversed());
-
-        sortedTopAthletes.putAll(topAthletes);
-
-        return sortedTopAthletes;
+    public Map<String, Integer> topAthletes(int topN) {
+        LinkedHashMap<String, Integer> toReturn =
+                athleteMap.values().stream()
+                        .collect(Collectors.toMap(
+                                Athlete::getName,
+                                athlete -> athlete.getMedal().size(),
+                                Integer::sum
+                        ))
+                        .entrySet().stream()
+                        .sorted(Map.Entry.<String, Integer>comparingByValue().reversed()
+                                .thenComparing(Map.Entry.comparingByKey()))
+                        .limit(topN)
+                        .collect(Collectors.toMap(
+                                Map.Entry::getKey,
+                                Map.Entry::getValue,
+                                (e1, e2) -> e1,
+                        LinkedHashMap::new
+                ));
+        return toReturn;
     }
+
+
 
 
     public static void printMap() {
