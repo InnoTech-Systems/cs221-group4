@@ -4,6 +4,8 @@ import prelim.model.Athlete;
 
 import java.io.*;
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class DataHandler {
     static HashMap<Integer, Athlete> athleteMap;
@@ -34,64 +36,68 @@ public class DataHandler {
         }
     }
 
-    public TreeMap<String, Double> aveHeightPerCountry() {
+    /**
+     * Author: Tank, Rithik
+     * @param topN : int
+     * @return LinkedHashMap<String, Double>
+     */
+    public Map<String, Double> aveHeightPerCountry(int topN) {
         HashMap<String, ArrayList<Integer>> heightCountryRecord = new HashMap<>();
 
         // Sort them by city
         for (Integer key : athleteMap.keySet()) {
-            if (heightCountryRecord.containsKey(athleteMap.get(key).getTeam())) {
-                 heightCountryRecord.get(athleteMap.get(key).getTeam()).add(athleteMap.get(key).getHeight());
+            if (heightCountryRecord.containsKey(athleteMap.get(key).getNOC())) {
+                heightCountryRecord.get(athleteMap.get(key).getNOC()).add(athleteMap.get(key).getHeight());
             } else {
                 ArrayList<Integer> heightList = new ArrayList<>();
                 heightList.add(athleteMap.get(key).getHeight());
-                heightCountryRecord.put(athleteMap.get(key).getTeam(), heightList);
+                heightCountryRecord.put(athleteMap.get(key).getNOC(), heightList);
             }
         }
 
         // Get Average per country
-        HashMap<String, Double> avePerCountry = new HashMap<String, Double>();
+        Map<String, Double> avePerCountry = new LinkedHashMap<>();
         for (String key : heightCountryRecord.keySet()) {
             ArrayList<Integer> heightList = heightCountryRecord.get(key);
             double average = heightList.stream()
                     .mapToDouble(Integer::doubleValue)
                     .average()
                     .orElse(0.0);
-            avePerCountry.put(key,average);
+            avePerCountry.put(key, average);
         }
 
-        // Return only the top 3
-        String top1 = avePerCountry.keySet()
+        List<Double> averages = avePerCountry.values()
                 .stream()
-                .max((x, y) -> avePerCountry.get(x).compareTo(avePerCountry.get(y)))
-                .orElse(null);
+                .sorted()
+                .toList();
 
-        String top2 = avePerCountry.keySet()
-                .stream()
-                .filter(key -> key != top1)
-                .max((x,y) -> avePerCountry.get(x).compareTo(avePerCountry.get(y)))
-                .orElse(null);
+        Map<String, Double> mapToReturn = new LinkedHashMap<>();
 
-        String top3 = avePerCountry.keySet()
-                .stream()
-                .filter(key -> key != top1 && key != top2)
-                .max((x,y) -> avePerCountry.get(x).compareTo(avePerCountry.get(y)))
-                .orElse(null);
-
-        TreeMap<String, Double> top3Map = new TreeMap<>();
-        top3Map.put(top3,avePerCountry.get(top3));
-        top3Map.put(top2,avePerCountry.get(top2));
-        top3Map.put(top1,avePerCountry.get(top1));
-
-
-        return top3Map;
+        ListIterator<Double> iterator = averages.listIterator();
+        while (iterator.hasNext()) {
+            iterator.next();
+        }
+        while (iterator.hasPrevious()) {
+            if (mapToReturn.size() == topN)
+                break;
+            double average = iterator.previous();
+            for (String key: avePerCountry.keySet()) {
+                if (avePerCountry.get(key) == average) {
+                    mapToReturn.put(key, average);
+                    break;
+                }
+            }
+        }
+        return mapToReturn;
     }
+
 
     /**
      * This method tallies all the gold medals for each country based on the filters applied
      * @author Jasmin, Ramon Emmiel P.
      * @return sortedTopCountries The Map(TreeMap) that contains the top countries with gold medals
      */
-    public Map<String, Integer> topCountriesMedals(){
+    public Map<String, Integer> topCountriesMedals(int topN){
         Map<String, Integer> topCountries = new HashMap<>();
 
         for (Athlete athlete : athleteMap.values()){
@@ -104,7 +110,17 @@ public class DataHandler {
 
         sortedTopCountries.putAll(topCountries);
 
-        return sortedTopCountries;
+        LinkedHashMap<String, Integer> topNCountries = new LinkedHashMap<>();
+        int x=0;
+        for (String key: sortedTopCountries.keySet()) {
+            if (x == topN)
+                break;
+            topNCountries.put(key, sortedTopCountries.get(key));
+            x++;
+        }
+
+
+        return topNCountries;
     }
 
     /**
@@ -114,7 +130,7 @@ public class DataHandler {
      *
      * @return A TreeMap containing the top 3 sports and their corresponding total medal counts.
      */
-    public TreeMap<String, Integer> topSportsWithMostMedals() {
+    public Map<String, Integer> topSportsWithMostMedals(int topN) {
         TreeMap<String, Integer> topSports = new TreeMap<>();
 
         // iterate through the athletes and update the topSports map
@@ -138,14 +154,14 @@ public class DataHandler {
         sortedTopSports.putAll(topSports);
 
         // creates a TreeMap to store the top 3 sports and their total medal counts
-        TreeMap<String, Integer> top3Sports = new TreeMap<>();
+        LinkedHashMap<String, Integer> top3Sports = new LinkedHashMap<>();
 
-        // adds the top 3 sports to the new TreeMap
+        // adds the top n sports to the new TreeMap
         int count = 0;
         for (Map.Entry<String, Integer> entry : sortedTopSports.entrySet()) {
             top3Sports.put(entry.getKey(), entry.getValue());
             count++;
-            if (count >= 3) {
+            if (count >= topN) {
                 break;
             }
         }
@@ -160,14 +176,15 @@ public class DataHandler {
      *
      * @return A TreeMap with country names as keys and corresponding youngest medalists' ages as values.
      */
-    public TreeMap<String, Integer> topCountriesYoungestMedalist() {
+    // TODO: Implement topN
+    public TreeMap<String, Integer> topCountriesYoungestMedalist(int topN) {
         // TreeMap to store countries and their youngest medalists' ages
         TreeMap<String, Integer> youngestMedalists = new TreeMap<>();
 
         // Loop through athletes and update youngestMedalists map
         for (Athlete athlete : athleteMap.values()) {
             // Get country and age of the current athlete
-            String country = athlete.getTeam();
+            String country = athlete.getNOC();
             int age = athlete.getAge();
 
             // Check if country is not in map or if current age is younger
@@ -181,34 +198,43 @@ public class DataHandler {
         TreeMap<String, Integer> topCountriesYoungest = new TreeMap<>(Comparator.comparingInt(youngestMedalists::get));
 
         // Add top countries to the new TreeMap
-        int count = 0;
+        int counter = 0;
         for (Map.Entry<String, Integer> entry : youngestMedalists.entrySet()) {
-            // Copy top countries and their ages to the new TreeMap
-            topCountriesYoungest.put(entry.getKey(), entry.getValue());
-            count++;
-
             // Limit to the top 3 countries
-            if (count >= 3) {
+            if (counter > topN) {
                 break;
             }
+
+            // Copy top countries and their ages to the new TreeMap
+            topCountriesYoungest.put(entry.getKey(), entry.getValue());
+            counter++;
         }
 
         return topCountriesYoungest;
     }
 
-    public Map<String, Integer> topAthletes() {
-        Map<String, Integer> topAthletes = new HashMap<>();
-
-        for (Athlete athlete: athleteMap.values()) {
-            topAthletes.put(athlete.getName(), topAthletes().getOrDefault(athlete.getMedal(), 0) + 1);
-        }
-
-        Map<String, Integer> sortedTopAthletes = new TreeMap<>(Comparator.comparing(topAthletes::get).reversed());
-
-        sortedTopAthletes.putAll(topAthletes);
-
-        return sortedTopAthletes;
+    public Map<String, Integer> topAthletes(int topN) {
+        LinkedHashMap<String, Integer> toReturn =
+                athleteMap.values().stream()
+                        .collect(Collectors.toMap(
+                                Athlete::getName,
+                                athlete -> athlete.getMedal().size(),
+                                Integer::sum
+                        ))
+                        .entrySet().stream()
+                        .sorted(Map.Entry.<String, Integer>comparingByValue().reversed()
+                                .thenComparing(Map.Entry.comparingByKey()))
+                        .limit(topN)
+                        .collect(Collectors.toMap(
+                                Map.Entry::getKey,
+                                Map.Entry::getValue,
+                                (e1, e2) -> e1,
+                        LinkedHashMap::new
+                ));
+        return toReturn;
     }
+
+
 
 
     public static void printMap() {
