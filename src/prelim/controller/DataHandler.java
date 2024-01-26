@@ -3,6 +3,7 @@ package prelim.controller;
 import prelim.model.Athlete;
 
 import java.io.*;
+import java.sql.SQLOutput;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -84,6 +85,7 @@ public class DataHandler {
             for (String key: avePerCountry.keySet()) {
                 if (avePerCountry.get(key) == average) {
                     mapToReturn.put(key, average);
+                    avePerCountry.remove(key);
                     break;
                 }
             }
@@ -177,7 +179,7 @@ public class DataHandler {
      * @return A TreeMap with country names as keys and corresponding youngest medalists' ages as values.
      */
     // TODO: Implement topN
-    public TreeMap<String, Integer> topCountriesYoungestMedalist(int topN) {
+    public Map<String, Integer> topCountriesYoungestMedalist(int topN) {
         // TreeMap to store countries and their youngest medalists' ages
         TreeMap<String, Integer> youngestMedalists = new TreeMap<>();
 
@@ -194,23 +196,32 @@ public class DataHandler {
             }
         }
 
-        // TreeMap to store top countries and their youngest medalists' ages
-        TreeMap<String, Integer> topCountriesYoungest = new TreeMap<>(Comparator.comparingInt(youngestMedalists::get));
+        List<Integer> ages = youngestMedalists
+                .values()
+                .stream()
+                .toList()
+                .stream().sorted()
+                .toList();
 
-        // Add top countries to the new TreeMap
-        int counter = 0;
-        for (Map.Entry<String, Integer> entry : youngestMedalists.entrySet()) {
-            // Limit to the top 3 countries
-            if (counter > topN) {
+
+        // Map to store top countries and their youngest medalists' ages
+        Map<String, Integer> mapToReturn = new LinkedHashMap<>();
+
+        ListIterator<Integer> iterator = ages.listIterator();
+
+        while (iterator.hasNext()) {
+            if (mapToReturn.size() == topN)
                 break;
+            int ageOfAthlete = iterator.next();
+            for (String key: youngestMedalists.keySet()) {
+                if (youngestMedalists.get(key) == ageOfAthlete) {
+                    youngestMedalists.remove(key);
+                    mapToReturn.put(key, ageOfAthlete);
+                    break;
+                }
             }
-
-            // Copy top countries and their ages to the new TreeMap
-            topCountriesYoungest.put(entry.getKey(), entry.getValue());
-            counter++;
         }
-
-        return topCountriesYoungest;
+        return mapToReturn;
     }
 
     public Map<String, Integer> topAthletes(int topN) {

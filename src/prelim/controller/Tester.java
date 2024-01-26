@@ -28,11 +28,11 @@ public class Tester {
         */
 
 
-        Map<String, Integer> topAthletes = dh.topAthletes(15);
+        Map<String, Integer> topAthletes = dh.topCountriesYoungestMedalist(50);
         int y = 0;
         for(String key : topAthletes.keySet()) {
             y++;
-            System.out.println(y + ". " + key + ", " + topAthletes.get(key));
+            System.out.println(y+ ". " + key + ", " + topAthletes.get(key));
         }
     }
 }

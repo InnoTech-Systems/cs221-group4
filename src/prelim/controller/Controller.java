@@ -50,6 +50,9 @@ public class Controller {
         switch (choice) {
             case 1 -> athletesMostMedal(topN);
             case 2 -> countriesMostMedal(topN);
+            case 3 -> topCountriesYoungestMedalist(topN);
+            case 4 -> topSportsWithMostMedals(topN);
+            case 5 -> aveHeightPerCountry(topN);
         }
     }
     public void athletesMostMedal(int topN) {
@@ -65,6 +68,33 @@ public class Controller {
     public void countriesMostMedal(int topN) {
         Map<String, Integer> map = dataHandler.topCountriesMedals(topN);
         String[] columnNames = {"Country", "Gold Medals"};
+        view.updateTable(columnNames);
+        for (String key : map.keySet()) {
+            view.model.addRow(new Object[]{key, map.get(key)});
+        }
+    }
+
+    public void topCountriesYoungestMedalist(int topN) {
+        Map<String, Integer> map = dataHandler.topCountriesYoungestMedalist(topN);
+        String[] columnNames = {"Country", "Youngest Medalist Age"};
+        view.updateTable(columnNames);
+        for (String key : map.keySet()) {
+            view.model.addRow(new Object[]{key, map.get(key)});
+        }
+    }
+
+    public void topSportsWithMostMedals(int topN) {
+        Map<String, Integer> map = dataHandler.topSportsWithMostMedals(topN);
+        String[] columnNames = {"Sports", "Gold Medals"};
+        view.updateTable(columnNames);
+        for (String key : map.keySet()) {
+            view.model.addRow(new Object[]{key, map.get(key)});
+        }
+    }
+
+    public void aveHeightPerCountry(int topN) {
+        Map<String, Double> map = dataHandler.aveHeightPerCountry(topN);
+        String[] columnNames = {"Country", "Average Height of Athletes"};
         view.updateTable(columnNames);
         for (String key : map.keySet()) {
             view.model.addRow(new Object[]{key, map.get(key)});

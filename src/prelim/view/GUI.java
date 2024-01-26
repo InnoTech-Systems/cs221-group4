@@ -10,6 +10,12 @@ import java.io.File;
 import java.io.IOException;
 
 public class GUI extends JFrame {
+    public JButton showResultsButton;
+    public JComboBox<String> filterDropdown2;
+
+    public JComboBox<String> filterDropdown1;
+
+    public JTable table ;
     /**
      * Header of the frame containing navigational buttons.
      */
@@ -18,7 +24,7 @@ public class GUI extends JFrame {
     /**
      * Main body of the frame
      */
-    private JPanel main;
+    public JPanel main;
 
     /**
      * Footer of the frame containing copyright notices.
@@ -54,10 +60,6 @@ public class GUI extends JFrame {
         header.setPreferredSize(new Dimension(650,70));
         add(header, BorderLayout.NORTH);
 
-        main = populateMain();
-        main.setPreferredSize(new Dimension(1000,700));
-        add(main, BorderLayout.CENTER);
-
         footer = populateFooter();
         footer.setPreferredSize(new Dimension(650,30));
         add(footer, BorderLayout.SOUTH);
@@ -67,6 +69,12 @@ public class GUI extends JFrame {
         setResizable(false);
         setLocationRelativeTo(null);
         setVisible(true);
+    }
+
+    public void updateTable(String[] columnNames) {
+        main = populateMain(columnNames);
+        main.setPreferredSize(new Dimension(1000,700));
+        add(main, BorderLayout.CENTER);
     }
 
     /**
@@ -109,7 +117,7 @@ public class GUI extends JFrame {
      * Creates the components of the main panel for the main frame.
      * @return UI components for the main panel.
      */
-    private JPanel populateMain() {
+    public JPanel populateMain(String[] columnNames) {
         JPanel container = new JPanel();
 
         try {
@@ -118,7 +126,7 @@ public class GUI extends JFrame {
             JPanel homePanel = populateHome();
             container.add(homePanel, "home");
 
-            JPanel tablePanel = populateTable();
+            JPanel tablePanel = populateTable(columnNames);
             container.add(tablePanel, "table");
         } catch (Exception e) {
             e.printStackTrace();
@@ -127,7 +135,7 @@ public class GUI extends JFrame {
         return container;
     }
 
-    private JPanel populateTable() {
+    private JPanel populateTable(String[] columnNames) {
         JPanel container = new JPanel();
         container.setLayout(new BorderLayout());
 
@@ -142,7 +150,7 @@ public class GUI extends JFrame {
 
         // Adding the first dropdown box with filter options
         String[] filterOptions1 = {"Choose here", "Top 3", "Top 5", "Top 10"};
-        JComboBox<String> filterDropdown1 = new JComboBox<>(filterOptions1);
+        filterDropdown1 = new JComboBox<>(filterOptions1);
         filterDropdown1.setFont(new Font("Arial", Font.BOLD, 16));
         filterDropdown1.setSelectedIndex(0);
         filterPanel.add(filterDropdown1);
@@ -153,7 +161,7 @@ public class GUI extends JFrame {
 
         // Adding the second dropdown box with filter options
         String[] filterOptions2 = {"Choose here", "Athletes with Most Medals", "Countries with Most Medals", "Countries with Youngest Medalists", "Sports with Most Medals", "Highest Average Height of Athletes per Country"};
-        JComboBox<String> filterDropdown2 = new JComboBox<>(filterOptions2);
+        filterDropdown2 = new JComboBox<>(filterOptions2);
         filterDropdown2.setFont(new Font("Arial", Font.BOLD, 16));
         filterDropdown2.setSelectedIndex(0);
         filterPanel.add(filterDropdown2);
@@ -165,11 +173,11 @@ public class GUI extends JFrame {
         tablePanel.setPreferredSize(new Dimension(900, 600));
 
         // Column names for the table
-        String[] columnNames = {"ID", "Name", "Sex", "Age", "Height", "Weight", "Team", "NOC", "Year", "Season", "City", "Sport", "Event", "Medals"};
+       // String[] columnNames = {"ID", "Name", "Sex", "Age", "Height", "Weight", "Team", "NOC", "Year", "Season", "City", "Sport", "Event", "Medals"};
 
         // DefaultTableModel with 14 columns
         model = new DefaultTableModel(columnNames, 0);
-        JTable table = new JTable(model);
+        table = new JTable(model);
 
         // Set the preferred size of the JTable
         table.setPreferredScrollableViewportSize(new Dimension(950, 445));
@@ -191,17 +199,18 @@ public class GUI extends JFrame {
         buttonPanel.setPreferredSize(new Dimension(900, 50));
 
         // Adding a button
-        JButton showResultsButton = new JButton("SHOW RESULTS");
+        showResultsButton = new JButton("SHOW RESULTS");
         showResultsButton.setFont(new Font("Arial", Font.BOLD, 16));
         showResultsButton.setPreferredSize(new Dimension(180, 40));
         showResultsButton.setBackground(resources.polynesianBlue);
         showResultsButton.setForeground(Color.BLACK);
         buttonPanel.add(showResultsButton);
 
-        container.add(buttonPanel, BorderLayout.SOUTH);
 
+        container.add(buttonPanel, BorderLayout.SOUTH);
         return container;
     }
+
 
     private JPanel populateHome() throws IOException {
         JPanel container = new JPanel();
