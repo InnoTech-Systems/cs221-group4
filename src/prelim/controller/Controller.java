@@ -99,6 +99,5 @@ public class Controller {
         for (String key : map.keySet()) {
             view.model.addRow(new Object[]{key, map.get(key)});
         }
-
     }
 }
