@@ -18,9 +18,9 @@ public class Controller {
         this.dataHandler = dataHandler;
         this.view = view;
 
-        String[] columnNames = {"ID", "Name", "Sex", "Age", "Height", "Weight", "Team", "NOC", "Year", "Season", "City", "Sport",
-                "Event", "Medals"};
-        view.updateTable(columnNames);
+        //String[] columnNames = {"ID", "Name", "Sex", "Age", "Height", "Weight", "Team", "NOC", "Year", "Season", "City", "Sport",
+        //        "Event", "Medals"};
+        //view.updateTable(columnNames);
 
         // Button Implementation
         // Create method to map filterOptions to an integer
@@ -31,6 +31,7 @@ public class Controller {
 
     public class showResultsListener implements ActionListener{
         public void actionPerformed(ActionEvent e) {
+            System.out.println("button click reached");
             checkFilter(checkTopNFilterOption());
         }
     }
@@ -47,6 +48,7 @@ public class Controller {
 
     public void checkFilter(int topN) {
         int choice = view.filterDropdown2.getSelectedIndex();
+        System.out.println("check filter reached");
         switch (choice) {
             case 1 -> athletesMostMedal(topN);
             case 2 -> countriesMostMedal(topN);
@@ -62,12 +64,12 @@ public class Controller {
         for (String key : map.keySet()) {
             view.model.addRow(new Object[]{key, map.get(key)});
         }
-        view.revalidate();
     }
 
     public void countriesMostMedal(int topN) {
         Map<String, Integer> map = dataHandler.topCountriesMedals(topN);
         String[] columnNames = {"Country", "Gold Medals"};
+        System.out.println("Countries Most Medal reached");
         view.updateTable(columnNames);
         for (String key : map.keySet()) {
             view.model.addRow(new Object[]{key, map.get(key)});
