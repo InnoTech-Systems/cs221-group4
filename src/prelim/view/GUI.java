@@ -229,7 +229,13 @@ public class GUI extends JFrame {
         JTextArea instructionsTxtArea = new JTextArea();
 
         String instructions =
-                "The data consists of <specify data>." +"\n\n" +
+                "The dataset consists of:" +"\n" +
+                        "\t1. Female Athletes\n" +
+                        "\t2. Athletes within 25 years old or older\n" +
+                        "\t3. Athletes not more than 70 kilograms.\n" +
+                        "\t4. Games within 2004 or later.\n" +
+                        "\t5. Summer games\n" +
+                        "\t6. Gold medalists\n\n" +
                         "To view desired Results of the Olympics based on the given pre-defined set of data," +
                         "simply choose desired filter in the dropdown menu in the Olympic Results page.";
 
