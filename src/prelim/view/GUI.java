@@ -10,8 +10,10 @@ import java.io.File;
 import java.io.IOException;
 
 public class GUI extends JFrame {
-    public JButton showResultsButton;
+    public JButton showResultsButton = new JButton();
     public JComboBox<String> filterDropdown2;
+    JPanel tablePanel;
+    JPanel homePanel;
 
     public JComboBox<String> filterDropdown1;
 
@@ -24,7 +26,7 @@ public class GUI extends JFrame {
     /**
      * Main body of the frame
      */
-    public JPanel main;
+    public JPanel main = new JPanel();
 
     /**
      * Footer of the frame containing copyright notices.
@@ -65,6 +67,13 @@ public class GUI extends JFrame {
         add(footer, BorderLayout.SOUTH);
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+        String[] columnNames = {"ID", "Name", "Sex", "Age", "Height", "Weight", "Team", "NOC", "Year", "Season", "City", "Sport",
+                       "Event", "Medals"};
+        main = populateMain(columnNames);
+         main.setPreferredSize(new Dimension(1000,700));
+        add(main, BorderLayout.CENTER);
+
         setSize(1000,700);
         setResizable(false);
         setLocationRelativeTo(null);
@@ -72,9 +81,15 @@ public class GUI extends JFrame {
     }
 
     public void updateTable(String[] columnNames) {
-        main = populateMain(columnNames);
-        main.setPreferredSize(new Dimension(1000,700));
-        add(main, BorderLayout.CENTER);
+        main.remove(tablePanel);
+        tablePanel = populateTable(columnNames);
+        main.add(tablePanel, "table");
+        cardLayout.show(main, "table");
+       // main.revalidate();
+       // main = populateMain(columnNames);
+       // main.setPreferredSize(new Dimension(1000,700));
+       // add(main, BorderLayout.CENTER);;
+       // add(main, BorderLayout.CENTER);;
     }
 
     /**
@@ -118,21 +133,23 @@ public class GUI extends JFrame {
      * @return UI components for the main panel.
      */
     public JPanel populateMain(String[] columnNames) {
-        JPanel container = new JPanel();
+        JPanel mainContainer = new JPanel();
 
         try {
-            container.setLayout(cardLayout);
+            mainContainer.setLayout(cardLayout);
 
-            JPanel homePanel = populateHome();
-            container.add(homePanel, "home");
+            homePanel = populateHome();
+            mainContainer.add(homePanel, "home");
 
-            JPanel tablePanel = populateTable(columnNames);
-            container.add(tablePanel, "table");
+            tablePanel = populateTable(columnNames);
+            mainContainer.add(tablePanel, "table");
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return container;
+        return mainContainer;
     }
 
     private JPanel populateTable(String[] columnNames) {
@@ -199,7 +216,7 @@ public class GUI extends JFrame {
         buttonPanel.setPreferredSize(new Dimension(900, 50));
 
         // Adding a button
-        showResultsButton = new JButton("SHOW RESULTS");
+        showResultsButton.setText("SHOW RESULTS");
         showResultsButton.setFont(new Font("Arial", Font.BOLD, 16));
         showResultsButton.setPreferredSize(new Dimension(180, 40));
         showResultsButton.setBackground(resources.polynesianBlue);
